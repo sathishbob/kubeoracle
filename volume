@@ -12,3 +12,44 @@ spec:
   resources:
     requests:
       storage: 1Gi
+      
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    name: mysql
+    labels:
+        "oracletraining": lamp
+spec:
+    replicas: 1
+    revisionHistoryLimit: 5
+    selector:
+        matchLabels:
+            app: mysql
+    template:
+        metadata:
+            labels:
+                app: mysql
+        spec:
+            containers:
+            - image: mysql:5.7
+              name: mysql
+              resources:
+                  requests:
+                      cpu: 1
+                      memory: 2Gi
+              livenessProbe:
+                tcpSocket:
+                  port: 3306
+              ports:
+              - containerPort: 3306
+              volumeMounts:
+              - mountPath: /var/lib/mysql
+                subPath: data
+                name: database
+            volumes:
+            - name: database
+              persistentVolumeClaim:
+                  claimName: database
+                  
