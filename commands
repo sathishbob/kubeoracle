@@ -1,0 +1,12 @@
+ systemctl start ntpd
+   13  systemctl enable ntpd
+   14  yum install flannel kubernetes
+   15  vi /etc/sysconfig/flanneld 
+   16  vi /etc/kubernetes/config 
+   17  vi /etc/kubernetes/kubelet
+   18  for SERVICE in kube-proxy kubelet docker flanneld; do systemctl restart $SERVICE; systemctl enable $SERVICE; Systemctl status $SERVICE; done
+   19  for SERVICE in kube-proxy kubelet docker flanneld; do systemctl restart $SERVICE; systemctl enable $SERVICE; systemctl status $SERVICE; done
+   20  cd /etc/kubernetes/
+   21  ls
+   22  ip a | grep flannel
+   23  history
